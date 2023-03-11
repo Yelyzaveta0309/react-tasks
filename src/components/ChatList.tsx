@@ -1,23 +1,48 @@
 import React, { FC, useState } from 'react';
-import { List, ListItem } from '@mui/material';
+import { Chat } from '../App';
+import { Link } from 'react-router-dom';
 import { nanoid } from 'nanoid';
+import { ListItem } from '@mui/material';
 
-export interface Chat {
-    id: string;
-    name: string;
+interface ChatListProps {
+    chatList: Chat[];
+    onAddChat: (chats: Chat) => void;
+    onDeleteChat: (chatName: string) => void;
 }
 
+export const ChatList: FC<ChatListProps> = ({ chatList, onAddChat, onDeleteChat }) => {
+    const [name, setName] = useState('');
 
-export const ChatList = () => {
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        if(name){
+            onAddChat({
+                id: nanoid(),
+                name,
+            });
+
+            setName('');
+        }
+    };
+
     return (
         <>
-        <List>
-            <ListItem>Chat1</ListItem>
-            <ListItem>Chat2</ListItem>
-            <ListItem>Chat3</ListItem>
-            <ListItem>Chat4</ListItem>
-            <ListItem>Chat5</ListItem>
-        </List>
-        </> 
+          <ul>
+            {chatList.map((chat) => (
+              <ListItem key={chat.id}>
+                <Link to={`/chats/${chat.name}`}>{chat.name}</Link>
+                <button onClick={()=>onDeleteChat(chat.name)}>delete chat</button>
+              </ListItem>
+            ))}
+          </ul>
+          <form onSubmit={handleSubmit}>
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+            <button type="submit">add chat</button>
+          </form>
+        </>
       );
-}
+};

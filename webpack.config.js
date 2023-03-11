@@ -11,6 +11,9 @@ module.exports = {
         extensions: ['.jsx', '.js', '.tsx', '.ts']
     },
     devtool: 'eval-source-map',
+    devServer: {
+        historyApiFallback: true,
+    },
     module: {
         rules: [{
                 test: /\.(j|t)sx?$/,
