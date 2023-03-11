@@ -1,11 +1,11 @@
-import React , {FC, useState, useEffect, useCallback} from 'react';
-import { Form } from '../components/Form/Form';
-import { MessageList } from '../components/MessageList/MessageList';
+import React, { FC, useCallback, useEffect } from 'react';
+import { MessageList } from '../../components/MessageList/MessageList';
+import { Form } from '../../components/Form/Form';
 import { nanoid } from 'nanoid';
-import { ChatList } from '../components/ChatList';
-import { Chat, Messages } from '../App';
+import { ChatList } from '../../components/ChatList';
+import { Chat, Messages } from '../../App';
 import { Navigate, useParams } from 'react-router-dom';
-
+import { WithClasses } from '../../HOC/WithClasses';
 
 
 interface ChatsProps {
@@ -17,14 +17,15 @@ interface ChatsProps {
 }
 
 export const Chats: FC<ChatsProps> = ({
-  chatList, 
-  onAddChat, 
+  chatList,
+  onAddChat,
   onDeleteChat,
-  setMessages, 
+  setMessages,
   messages,
 }) => {
 
-  const {chatId} = useParams();
+  const { chatId } = useParams();
+  const MessageListWithClass = WithClasses(MessageList);
 
   useEffect(() => {
     if (
@@ -77,8 +78,9 @@ export const Chats: FC<ChatsProps> = ({
 
   return (
     <>
-     <ChatList chatList={chatList} onAddChat={onAddChat} onDeleteChat={onDeleteChat} />
-      <MessageList messages={chatId ? messages[chatId] : []} />
+      <ChatList chatList={chatList} onAddChat={onAddChat} onDeleteChat={onDeleteChat} />
+      {/* <MessageList messages={chatId ? messages[chatId] : []} /> */}
+      <MessageListWithClass messages={chatId ? messages[chatId] : []}  classes={'classes'}/>
       <Form addMessage={addMessage} />
     </>
   );
