@@ -1,32 +1,41 @@
 import React, {FC, FormEvent, memo, useState} from 'react';
 import { Input } from '@mui/material';
 import { Button } from './components/Button';
-import { addMessage, addMessageWithReply } from '../../store/chats/actions';
+import { addMessageWithReply } from '../../store/chats/slice';
 import { useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import { ChatsState } from '../../store/chats/reducer';
+import { AddMessage } from '../../store/chats/types';
+import { ThunkDispatch } from 'redux-thunk';
 
 export const Form: FC = memo(() => {
-
     const [value, setValue] = useState('');
     const { chatId } = useParams();
-
-    const dispatch = useDispatch();
-    
-    const handleSubmitForm = (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-
-        if(chatId && value){
-            // dispatch(addMessage(chatId, value));
-            dispatch(addMessageWithReply(chatId, {text: value, author: 'user'}));
-
-        }
-        setValue('');
+    const dispatch =
+      useDispatch<ThunkDispatch<ChatsState, void, ReturnType<AddMessage>>>();
+  
+    const handleSubmitForm = (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+  
+      if (chatId && value) {
+        dispatch(
+          addMessageWithReply({
+            chatId,
+            message: { author: 'user', text: value },
+          })
+        );
+      }
+      setValue('');
     };
-
+  
     return (
-        <form onSubmit={handleSubmitForm}>
-            <Input type='text' value={value} onChange={(e) => setValue(e.target.value)}  />
-            <Button disabled={!value}/>
-        </form>
+      <form onSubmit={handleSubmitForm}>
+        <Input
+          type="text"
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+        />
+        <Button disabled={!value} />
+      </form>
     );
-});
+  });
