@@ -8,7 +8,7 @@ const navigate = [
         name: 'Home',
     },
     {
-        id: 3, 
+        id: 2, 
         to: '/profile',
         name: 'Profile',
     },
@@ -16,6 +16,11 @@ const navigate = [
         id: 3, 
         to: '/chats',
         name: 'Chats',
+    },
+    {
+        id: 4, 
+        to: '/about',
+        name: 'About',
     }
 ]
 

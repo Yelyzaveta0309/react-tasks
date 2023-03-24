@@ -4,12 +4,16 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
     entry: path.resolve(__dirname, './src/index.tsx'),
     output: {
-        filename: 'bundle.js',
+        filename: '[name].bundle.[chunkhash].js',
         path: path.resolve(__dirname, './build'),
     },
     resolve: {
-        extensions: ['.jsx', '.js', '.tsx', '.ts']
-    },
+        extensions: ['.jsx', '.js', '.tsx', '.ts'],
+        alias: {
+          components: path.resolve(__dirname, 'src/components/'),
+          src: path.resolve(__dirname, 'src'),
+        },
+      },
     devtool: 'eval-source-map',
     devServer: {
         historyApiFallback: true,
@@ -21,8 +25,8 @@ module.exports = {
                 use: ['babel-loader'],
             },
             {
-                test: /\.s?css?$/i,
-                exclude: /\.module\.css$/i,
+                test: /\.s?css$/i,
+                exclude: /\.module\.s?css$/i,
                 use: ['style-loader',
                 {
                     loader: 'css-loader',
@@ -36,7 +40,7 @@ module.exports = {
                  'sass-loader'],
             },
             {
-                test: /\.module.s?css?$/i,
+                test: /\.module\.s?css$/,
                 use: ['style-loader',
                 {
                     loader: 'css-loader',
@@ -51,6 +55,7 @@ module.exports = {
             },
             {
                 test: /\.(png|jpe?g|gif)$/i,
+                type: 'asset/resource',
                 use: [
                     {
                         loader: 'file-loader',
