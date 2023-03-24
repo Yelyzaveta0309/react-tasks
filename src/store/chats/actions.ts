@@ -1,4 +1,4 @@
-import { AddChat, AddMessage, DeleteChat } from "./types";
+import { AddChat, AddMessage, DeleteChat, Message } from "./types";
 
 export const ADD_CHAT = 'CHATS::ADD_CHAT';
 export const DELETE_CHAT = 'CHATS::DELETE_CHAT';
@@ -19,3 +19,22 @@ export const addMessage: AddMessage = (chatId, message) => ({
     chatId,
     message
 });
+let timeout: NodeJS.Timeout;
+
+export const addMessageWithReply = 
+    (chatId: any, message: Message): any => (dispatch: any)=>{
+        dispatch(addMessage(chatId, message));
+
+        if(message.author !== 'bot'){
+            if(timeout){
+                clearTimeout(timeout);
+            }
+
+            timeout = setTimeout(()=>{
+                dispatch(addMessage(chatId,{
+                    text: 'I`m bot',
+                    author: 'bot'
+                }))
+            }, 1000)
+        }
+}
