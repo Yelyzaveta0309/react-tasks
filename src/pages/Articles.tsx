@@ -1,5 +1,4 @@
 import React, { FC, useEffect, useState } from 'react';
-
 import { api } from '../constants';
 
 export const Articles: FC = () => {

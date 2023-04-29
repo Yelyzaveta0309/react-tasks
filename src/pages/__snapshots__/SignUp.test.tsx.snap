@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SignUp component should render correctly 1`] = `
+<h2>
+  Sign Up
+</h2>
+`;
+
+exports[`SignUp should render correctly 1`] = `
+<h2>
+  Sign Up
+</h2>
+`;

@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Form render with snapshot 1`] = `
+<DocumentFragment>
+  <form>
+    <div
+      class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary css-q0jhri-MuiInputBase-root-MuiInput-root"
+    >
+      <input
+        class="MuiInputBase-input MuiInput-input css-1x51dt5-MuiInputBase-input-MuiInput-input"
+        type="text"
+        value=""
+      />
+    </div>
+    <button
+      disabled=""
+      type="submit"
+    >
+      click
+    </button>
+  </form>
+</DocumentFragment>
+`;

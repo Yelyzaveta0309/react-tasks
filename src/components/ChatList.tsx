@@ -1,15 +1,14 @@
 import { Link } from 'react-router-dom';
 import { ListItem } from '@mui/material';
 import React, { FC, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-
+import { push, remove } from 'firebase/database';
+import { chatsRef, getChatsById } from '../services/firebase';
+import { nanoid } from '@reduxjs/toolkit';
+import { useSelector } from 'react-redux';
 import { selectChatList } from '../store/chats/selectors';
-import { addChat, deleteChat } from '../store/chats/slice';
 
 export const ChatList: FC = () => {
   const [name, setName] = useState('');
-
-  const dispatch = useDispatch();
 
   const chatList = useSelector(
     selectChatList,
@@ -20,20 +19,29 @@ export const ChatList: FC = () => {
     e.preventDefault();
 
     if (name) {
-      dispatch(addChat({ name }));
+      const id = nanoid();
+      push(chatsRef,{
+        id,
+        messageList: {
+          empty: true,
+        },
+        name,
+      });
       setName('');
     }
   };
+
+  const handleDeleteChat = (id: string) => {
+    remove(getChatsById(id));
+  }
 
   return (
     <>
       <ul>
         {chatList.map((chat) => (
           <ListItem key={chat.id}>
-            <Link to={`/chats/${chat.name}`}>{chat.name}</Link>
-            <button onClick={() => dispatch(deleteChat({ chatId: chat.name }))}>
-              x
-            </button>
+            <Link to={`/chats/${chat.id}`}>{chat.name}</Link>
+            <button onClick={() => handleDeleteChat(chat.id)}>x</button>
           </ListItem>
         ))}
       </ul>
